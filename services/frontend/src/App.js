@@ -1,10 +1,12 @@
 import './App.css';
-import Maps from './pages/Maps';
+import Header from './components/header';
+// import Sidebar from './components/sidebar';
+// import Maps from './pages/Maps';
 
 function App() {
   return (
-    <div className="App">
-      <Maps />
+    <div>
+      <Header />
     </div>
   );
 }
