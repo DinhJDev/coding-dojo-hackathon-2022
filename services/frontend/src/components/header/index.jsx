@@ -41,9 +41,10 @@ export default function Header() {
               />
             </TabList>
           </Box>
-          <TabPanel value="1" style={{padding: 0}}><Map /> </TabPanel>
-          <TabPanel value="2" style={{padding: 0}}><Map /></TabPanel>
-          <TabPanel value="3" style={{padding: 0}}><Map /></TabPanel>
+          <Map />
+          {/* <TabPanel value="1" style={{padding: 0}}> </TabPanel>
+          <TabPanel value="2" style={{padding: 0}}></TabPanel>
+          <TabPanel value="3" style={{padding: 0}}></TabPanel> */}
         </TabContext>
       </Box>
     </div>
