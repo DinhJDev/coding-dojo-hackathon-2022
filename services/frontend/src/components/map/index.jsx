@@ -12,8 +12,8 @@ const options = {
   zoomControl: true,
 };
 const center = {
-  lat: 58.88,
-  lng: 58.33,
+  lat: 47.620,
+  lng: -122.34,
 };
 
 export default function Map() {
@@ -36,7 +36,7 @@ export default function Map() {
       <GoogleMap
         id="map"
         mapContainerStyle={mapContainerStyle}
-        zoom={8}
+        zoom={18}
         center={center}
         options={options}
         onLoad={onMapLoad}

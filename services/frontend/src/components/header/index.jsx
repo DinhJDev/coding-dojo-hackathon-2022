@@ -16,7 +16,7 @@ export default function Header() {
   };
 
   return (
-    <div>
+    <div style={{position: 'fixed', marginLeft: 240}}>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={page}>
           <Box
