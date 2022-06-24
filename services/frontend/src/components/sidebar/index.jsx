@@ -17,21 +17,13 @@ import Toolbar from '@mui/material/Toolbar';
 
 const drawerWidth = 240;
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-}
-
-export default function ResponsiveDrawer(props: Props) {
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+export default function Sidebar(props) {
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+  
+    const handleDrawerToggle = () => {
+      setMobileOpen(!mobileOpen);
+    };
 
   const drawer = (
     <div>
