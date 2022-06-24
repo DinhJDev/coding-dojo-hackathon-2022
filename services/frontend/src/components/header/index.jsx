@@ -10,7 +10,7 @@ import TabPanel from "@mui/lab/TabPanel";
 export default function Header() {
   const [page, setPage] = useState("1");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue) => {hello
     setPage(newValue);
   };
 
@@ -19,9 +19,9 @@ export default function Header() {
       <TabContext value={page}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Potential Danger" value="1" style={{textTransform: 'none'}}/>
-            <Tab label="Item Two" value="2" style={{textTransform: 'none'}}/>
-            <Tab label="Item Three" value="3" style={{textTransform: 'none'}}/>
+            <Tab label="Potential Danger" value="1" style={{textTransform: 'none', width: 200}}/>
+            <Tab label="Supplies" value="2" style={{textTransform: 'none', width: 200}}/>
+            <Tab label="Housing" value="3" style={{textTransform: 'none',  width: 200}}/>
           </TabList>
         </Box>
         <TabPanel value="1">Item One</TabPanel>
