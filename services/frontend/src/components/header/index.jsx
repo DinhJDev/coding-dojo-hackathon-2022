@@ -10,7 +10,7 @@ import TabPanel from "@mui/lab/TabPanel";
 export default function Header() {
   const [page, setPage] = useState("1");
 
-  const handleChange = (event, newValue) => {hello
+  const handleChange = (event, newValue) => {
     setPage(newValue);
   };
 
