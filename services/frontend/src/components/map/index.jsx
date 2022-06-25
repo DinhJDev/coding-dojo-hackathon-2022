@@ -47,7 +47,6 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: moment(new Date()).format(),
       },
     ]);
   }, []);
@@ -58,7 +57,7 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: moment(new Date()).format(),
+
       },
     ]);
   }, []);
@@ -204,7 +203,7 @@ export default function Map({ page }) {
                     <h2>Supply Here</h2>
                     <p>
                       Spotted{" "}
-                      {moment().startOf(new Date()).fromNow()}
+                      {moment().calendar()}
                       {/* {formatRelative(suppliesDetail.time, new Date())} */}
                       { }
                     </p>
