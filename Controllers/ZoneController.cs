@@ -8,12 +8,12 @@ using Hackathon.Core;
 namespace hackathon.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class HackathonController : ControllerBase
+    [Route("api/[controller]")]
+    public class ZoneController : ControllerBase
     {
         private readonly ZoneService _hotZone;
 
-        public HackathonController(ZoneService hotZone)
+        public ZoneController(ZoneService hotZone)
         {
             _hotZone = hotZone;
         }

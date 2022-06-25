@@ -22,6 +22,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ZoneService>();
+builder.Services.AddScoped<SupplyService>();
+builder.Services.AddScoped<LostFoundService>();
 builder.Services.AddDbContext<HackathonContext>(opt => opt.UseMySql(builder.Configuration.GetConnectionString("connection"), serverVersion));
 
 var app = builder.Build();
