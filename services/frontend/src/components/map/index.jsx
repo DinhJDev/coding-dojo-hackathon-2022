@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -6,6 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { formatRelative } from "date-fns";
+import GeoLocation from "./GeoLocation";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -27,10 +28,10 @@ export default function Map() {
     libraries,
   });
 
-  const [russianTroops, setRussianTroops] = React.useState([]);
-  const [russianTroopDetails, setRussianTroopDetails] = React.useState(null);
+  const [russianTroops, setRussianTroops] = useState([]);
+  const [russianTroopDetails, setRussianTroopDetails] = useState(null);
 
-  const onMapClick = React.useCallback((e) => {
+  const onMapClick = useCallback((e) => {
     setRussianTroops((current) => [
       ...current,
       {
@@ -41,9 +42,14 @@ export default function Map() {
     ]);
   }, []);
 
-  const mapRef = React.useRef();
-  const onMapLoad = React.useCallback((map) => {
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map) => {
     mapRef.current = map;
+  }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(14);
   }, []);
 
   if (loadError) return "Error";
@@ -51,6 +57,7 @@ export default function Map() {
 
   return (
     <div>
+      <GeoLocation panTo={panTo} />
       <GoogleMap
         id="map"
         mapContainerStyle={mapContainerStyle}
