@@ -13,7 +13,6 @@ namespace Hackathon.Core
         public int Id { get; set; }
         public string? From { get; set; }
         public string? Contact { get; set; }
-        [Required]
         public string? LostFoundAge { get; set; }
         public string? ContactType { get; set; }
         [Required]

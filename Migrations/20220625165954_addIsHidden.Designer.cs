@@ -3,6 +3,7 @@ using System;
 using Hackathon.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hackathon.Migrations
 {
     [DbContext(typeof(HackathonContext))]
-    partial class HackathonContextModelSnapshot : ModelSnapshot
+    [Migration("20220625165954_addIsHidden")]
+    partial class addIsHidden
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

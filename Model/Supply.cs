@@ -12,12 +12,11 @@ namespace Hackathon.Core
         [Key]
         public int Id { get; set; }
         public string? Type { get; set; }
+        public string? SupplyAge { get; set; }
         [Required]
-        public string SupplyAge { get; set; }
+        public int? Lat { get; set; }
         [Required]
-        public string? Lat { get; set; }
-        [Required]
-        public string? Lon { get; set; }
+        public int? Lon { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }

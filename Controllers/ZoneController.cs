@@ -31,28 +31,24 @@ namespace Hackathon.Controllers
         {
             return _zoneService.GetOne(id);
         }
-        //[HttpGet(Name = "/GetAllZones")]
-        //public List<HotZone> GetAllZones()
-        //{
-        //    return _hotZone.GetAll();
-        //}
+
         [HttpPost(Name = "MarkZone")]
         public void MarkZone(HotZone newT)
         {
             _zoneService.Create(newT);
 
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var todoItem = await _context.HotZones.FindAsync(id);
+            var item = await _context.HotZones.FindAsync(id);
 
-            if (todoItem == null)
+            if (item == null)
             {
                 return NotFound();
             }
 
-            _context.HotZones.Remove(todoItem);
+            _context.HotZones.Remove(item);
             await _context.SaveChangesAsync();
 
             return NoContent();

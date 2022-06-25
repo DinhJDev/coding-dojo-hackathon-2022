@@ -11,11 +11,9 @@ namespace Hackathon.Core
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string? Zone { get; set; }
-        [Required]
+
         public int? DangerLevel { get; set; }
-        [Required]
+        
         public string? ZoneAge { get; set; }
         [Required]
         public string? Lat { get; set; }
