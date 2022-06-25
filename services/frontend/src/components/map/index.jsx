@@ -5,7 +5,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-
+import moment from 'moment';
 import { formatRelative } from "date-fns";
 import GeoLocation from "./GeoLocation";
 
@@ -39,7 +39,7 @@ export default function Map({ page }) {
   const [supplies, setSupplies] = useState([]);
   const [suppliesDetail, setSuppliesDetail] = useState(null);
 
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState({});
 
   const onMapClickTroops = useCallback((e) => {
     setRussianTroops((current) => [
@@ -47,7 +47,7 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: new Date(),
+        time: moment(new Date()).format(),
       },
     ]);
   }, []);
@@ -58,7 +58,7 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: new Date(),
+        time: moment(new Date()).format(),
       },
     ]);
   }, []);
@@ -67,15 +67,29 @@ export default function Map({ page }) {
 
   const getTroops = (id) => {
     fetch(`https://localhost:7032/api/Zone?id=${id}`)
-    .then(response => response.json())
-    .then(data => setFilteredData(data))
+      .then(response => response.json())
+      .then(data => setFilteredData(data))
+  }
+
+
+  const sendTroopInfo = (russianTroops) => {
+    fetch(`https://localhost:7032/api/Zone`, {
+      method: "POST",
+      headers: {
+        body: JSON.stringify(russianTroops)
+      }
+    })
+      .then((response) => response.json())
+      .then((result) => { console.log(result) })
   }
 
   useEffect(() => {
-    getTroops(id) 
+    getTroops(id)
+    sendTroopInfo(russianTroops)
   }, [id, russianTroops])
 
-  console.log(filteredData)
+  // console.log(filteredData)
+  console.log(russianTroops)
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -89,15 +103,17 @@ export default function Map({ page }) {
 
   let itemShownPlacer = onMapClickTroops
 
-  if(page === '2') {
+  if (page === '2') {
     itemShownPlacer = onMapClickSupplies
   } else {
     itemShownPlacer = itemShownPlacer
   }
 
-  
+
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
+
+
 
   const state = {
 
@@ -148,7 +164,7 @@ export default function Map({ page }) {
                     <h2>Careful! Troop was spotted here</h2>
                     <p>
                       Spotted{" "}
-                      {formatRelative(russianTroopDetails.time, new Date())}
+                      {moment().startOf(new Date()).fromNow()}
                     </p>
                   </div>
                 </InfoWindow>
@@ -188,7 +204,9 @@ export default function Map({ page }) {
                     <h2>Supply Here</h2>
                     <p>
                       Spotted{" "}
-                      {formatRelative(suppliesDetail.time, new Date())}
+                      {moment().startOf(new Date()).fromNow()}
+                      {/* {formatRelative(suppliesDetail.time, new Date())} */}
+                      { }
                     </p>
                   </div>
                 </InfoWindow>
