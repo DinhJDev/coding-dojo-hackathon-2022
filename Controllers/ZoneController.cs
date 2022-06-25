@@ -27,7 +27,7 @@ namespace Hackathon.Controllers
         }
 
         [HttpGet("{id}")]
-        public HotZone GetZone(int id)
+        public HotZone GetZones(int id)
         {
             return _zoneService.GetOne(id);
         }
