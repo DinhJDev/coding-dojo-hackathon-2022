@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 
 import { formatRelative } from "date-fns";
-import GeoLocation from "./geoLocation";
+import GeoLocation from "./GeoLocation";
 
 import MapContext from "./MapContext";
 
