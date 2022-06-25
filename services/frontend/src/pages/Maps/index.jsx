@@ -3,7 +3,7 @@ import Header from '../../components/header';
 import Map from "../../components/map";
 import Sidebar from '../../components/sidebar';
 
-export default function Home() {
+export default function Maps() {
   return (
     <div>
       <div style={{display: 'flex', position: "absolute",  zIndex: 100}}>

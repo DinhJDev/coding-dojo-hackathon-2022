@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -39,6 +39,8 @@ export default function Map({ page }) {
   const [supplies, setSupplies] = useState([]);
   const [suppliesDetail, setSuppliesDetail] = useState(null);
 
+  const [filteredData, setFilteredData] = useState([]);
+
   const onMapClickTroops = useCallback((e) => {
     setRussianTroops((current) => [
       ...current,
@@ -61,6 +63,20 @@ export default function Map({ page }) {
     ]);
   }, []);
 
+  const id = 2
+
+  const getTroops = (id) => {
+    fetch(`https://localhost:7032/api/Zone?id=${id}`)
+    .then(response => response.json())
+    .then(data => setFilteredData(data))
+  }
+
+  useEffect(() => {
+    getTroops(id) 
+  }, [id, russianTroops])
+
+  console.log(filteredData)
+
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
@@ -68,20 +84,18 @@ export default function Map({ page }) {
 
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(14);
+    mapRef.current.setZoom(18);
   }, []);
 
   let itemShownPlacer = onMapClickTroops
 
-  console.log(page == 2)
-  if(page == 2) {
+  if(page === '2') {
     itemShownPlacer = onMapClickSupplies
   } else {
     itemShownPlacer = itemShownPlacer
   }
 
-  if(page)
-
+  
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
@@ -102,7 +116,7 @@ export default function Map({ page }) {
           onLoad={onMapLoad}
           onClick={itemShownPlacer}
         >
-          {page == 1 && (
+          {page === '1' && (
             <div>
               {russianTroops.map((troop) => (
                 <Marker
@@ -142,7 +156,7 @@ export default function Map({ page }) {
             </div>
           )}
 
-          {page == 2 && (
+          {page === '2' && (
             <div>
               {supplies.map((troop) => (
                 <Marker

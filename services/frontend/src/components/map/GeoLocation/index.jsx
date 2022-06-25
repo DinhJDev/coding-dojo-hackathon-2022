@@ -4,7 +4,7 @@ export default function GeoLocation({ panTo }) {
   return (
     <button
       className="locate"
-      style={{position: 'absolute', zIndex: 100, backgroundColor: 'transparent', border: 'none'}}
+      style={{ cursor: 'pointer', position: 'absolute', zIndex: 100, backgroundColor: 'transparent', border: 'none'}}
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
           (position) => {

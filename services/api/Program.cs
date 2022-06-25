@@ -25,6 +25,7 @@ builder.Services.AddScoped<ZoneService>();
 builder.Services.AddScoped<SupplyService>();
 builder.Services.AddScoped<LostFoundService>();
 builder.Services.AddDbContext<HackathonContext>(opt => opt.UseMySql(builder.Configuration.GetConnectionString("connection"), serverVersion));
+builder.Services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()); });
 
 var app = builder.Build();
 
@@ -34,8 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
 app.UseAuthorization();
 
