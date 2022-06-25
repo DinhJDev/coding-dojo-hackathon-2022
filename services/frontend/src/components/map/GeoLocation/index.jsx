@@ -17,7 +17,7 @@ export default function GeoLocation({ panTo }) {
         );
       }}
     >
-      <img style={{width: 30, position: 'fixed', bottom: 25, right: 25}} src="/marker.svg" alt="compass" />
+      <img style={{width: 40, position: 'fixed', bottom: 25, right: 25}} src="/marker.svg" alt="compass" />
     </button>
   );
 }

@@ -16,7 +16,7 @@ export default function Header() {
   };
 
   return (
-    <div style={{position: 'fixed', marginLeft: 240, zIndex: 100}}>
+    <div style={{width: '100%', position: 'fixed', marginLeft: 240, zIndex: 100, backgroundColor: 'white'}}>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={page}>
           <Box
@@ -41,10 +41,7 @@ export default function Header() {
               />
             </TabList>
           </Box>
-          <Map />
-          {/* <TabPanel value="1" style={{padding: 0}}> </TabPanel>
-          <TabPanel value="2" style={{padding: 0}}></TabPanel>
-          <TabPanel value="3" style={{padding: 0}}></TabPanel> */}
+          <Map page={page}/>
         </TabContext>
       </Box>
     </div>
