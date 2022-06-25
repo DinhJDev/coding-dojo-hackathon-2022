@@ -23,9 +23,4 @@
     <Folder Include="React\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Hackathon.Core\Hackathon.Core.csproj" />
-    <ProjectReference Include="..\Hackathon.Dal\Hackathon.Dal.csproj" />
-  </ItemGroup>
-
 </Project>
