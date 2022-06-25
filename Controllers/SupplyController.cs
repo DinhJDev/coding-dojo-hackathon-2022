@@ -3,7 +3,7 @@ using Hackathon.Dal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace hackathon.Controllers
+namespace Hackathon.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

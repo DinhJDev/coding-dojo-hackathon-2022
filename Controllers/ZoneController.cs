@@ -5,7 +5,7 @@ using Hackathon.Dal;
 using Hackathon.Core;
 
 
-namespace hackathon.Controllers
+namespace Hackathon.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "hackathon": {
+    "Hackathon": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

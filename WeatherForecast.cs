@@ -1,4 +1,4 @@
-namespace hackathon
+namespace Hackathon
 {
     public class WeatherForecast
     {
