@@ -1,24 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
+﻿using Hackathon.Core;
 using Hackathon.Dal;
-using Hackathon.Core;
-using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class ZoneController : ControllerBase
+    [ApiController]
+    public class TrackerController : ControllerBase
     {
         private readonly HackathonContext _context;
         private readonly ZoneService _zoneService;
+        private readonly SupplyService _supplyService;
+        private readonly LostFoundService _lostFoundService;
 
-        public ZoneController(HackathonContext context, ZoneService zoneService)
+        public TrackerController(HackathonContext context, ZoneService zoneService, SupplyService supplyService, LostFoundService lostFoundService)
         {
             _context = context;
             _zoneService = zoneService;
+            _supplyService = supplyService;
+            _lostFoundService = lostFoundService;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HotZone>>> GetAllZones()
@@ -41,21 +42,6 @@ namespace Hackathon.Controllers
         {
             _zoneService.Create(newT);
 
-        }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var todoItem = await _context.HotZones.FindAsync(id);
-
-            if (todoItem == null)
-            {
-                return NotFound();
-            }
-
-            _context.HotZones.Remove(todoItem);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
     }
 }

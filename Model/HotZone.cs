@@ -16,11 +16,30 @@ namespace Hackathon.Core
         [Required]
         public int? DangerLevel { get; set; }
         [Required]
-        public string ZoneAge { get; set; }
+        public string? ZoneAge { get; set; }
         [Required]
         public string? Lat { get; set; }
         [Required]
         public string? Lon { get; set; }
+        
+        public bool IsHidden
+        {
+            get
+            {
+                return IsHidden;
+            }
+            set
+            {
+                if (UpdatedAt > DateTime.UtcNow.AddHours(12))
+                {
+                    IsHidden = true;
+                }
+                else
+                {
+                    IsHidden = false;
+                }
+            }
+        }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
