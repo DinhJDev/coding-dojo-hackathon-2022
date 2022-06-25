@@ -1,6 +1,11 @@
 import React from "react";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import { formatRelative } from "date-fns";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -12,7 +17,7 @@ const options = {
   zoomControl: true,
 };
 const center = {
-  lat: 47.620,
+  lat: 47.62,
   lng: -122.34,
 };
 
@@ -22,11 +27,24 @@ export default function Map() {
     libraries,
   });
 
+  const [russianTroops, setRussianTroops] = React.useState([]);
+  const [russianTroopDetails, setRussianTroopDetails] = React.useState(null);
+
+  const onMapClick = React.useCallback((e) => {
+    setRussianTroops((current) => [
+      ...current,
+      {
+        lat: e.latLng.lat(),
+        lng: e.latLng.lng(),
+        time: new Date(),
+      },
+    ]);
+  }, []);
+
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
     mapRef.current = map;
   }, []);
-
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
@@ -40,11 +58,42 @@ export default function Map() {
         center={center}
         options={options}
         onLoad={onMapLoad}
+        onClick={onMapClick}
       >
+        {russianTroops.map((troop) => (
+          <Marker
+            key={`${troop.lat}-${troop.lng}`}
+            position={{ lat: troop.lat, lng: troop.lng }}
+            onClick={() => {
+                setRussianTroopDetails(troop);
+            }}
+            icon={{
+              url: `/rusFlag.png`,
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(15, 15),
+              scaledSize: new window.google.maps.Size(30, 30),
+            }}
+          />
+        ))}
+
+        {russianTroopDetails ? (
+          <InfoWindow
+            position={{ lat: russianTroopDetails.lat, lng: russianTroopDetails.lng }}
+            onCloseClick={() => {
+              setRussianTroopDetails(null);
+            }}
+          >
+            <div>
+              <h2>
+                Careful! Troop was spotted here
+              </h2>
+              <p>Spotted {formatRelative(russianTroopDetails.time, new Date())}</p>
+            </div>
+          </InfoWindow>
+        ) : (
+          null
+        )}
       </GoogleMap>
     </div>
   );
 }
-
-
-
