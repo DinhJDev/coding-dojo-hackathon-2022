@@ -5,8 +5,9 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+
 import { formatRelative } from "date-fns";
-import GeoLocation from "./GeoLocation";
+import GeoLocation from "./geoLocation";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -72,7 +73,7 @@ export default function Map() {
             key={`${troop.lat}-${troop.lng}`}
             position={{ lat: troop.lat, lng: troop.lng }}
             onClick={() => {
-                setRussianTroopDetails(troop);
+              setRussianTroopDetails(troop);
             }}
             icon={{
               url: `/rusFlag.png`,
@@ -85,21 +86,23 @@ export default function Map() {
 
         {russianTroopDetails ? (
           <InfoWindow
-            position={{ lat: russianTroopDetails.lat, lng: russianTroopDetails.lng }}
+            position={{
+              lat: russianTroopDetails.lat,
+              lng: russianTroopDetails.lng,
+            }}
             onCloseClick={() => {
               setRussianTroopDetails(null);
             }}
           >
             <div>
-              <h2>
-                Careful! Troop was spotted here
-              </h2>
-              <p>Spotted {formatRelative(russianTroopDetails.time, new Date())}</p>
+              <h2>Careful! Troop was spotted here</h2>
+              <p>
+                Spotted {formatRelative(russianTroopDetails.time, new Date())}
+                {console.log((russianTroopDetails.time, new Date()))}
+              </p>
             </div>
           </InfoWindow>
-        ) : (
-          null
-        )}
+        ) : null}
       </GoogleMap>
     </div>
   );
