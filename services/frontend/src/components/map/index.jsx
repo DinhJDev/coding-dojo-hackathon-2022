@@ -7,7 +7,7 @@ import {
 } from "@react-google-maps/api";
 import { formatRelative } from "date-fns";
 import GeoLocation from "./GeoLocation";
-import MapContext from "./MapContext";
+import moment from 'moment';
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -36,7 +36,7 @@ export default function Map({ page }) {
   const [russianTroopDetails, setRussianTroopDetails] = useState(null);
 
   const [troopData, setTroopData] = useState([]);
-  
+
   const onMapClickTroops = useCallback((e) => {
     setRussianTroops((current) => [
       ...current,
@@ -72,8 +72,8 @@ export default function Map({ page }) {
   const getTroops = () => {
     setTimeout(() => {
       fetch(`https://localhost:7032/api/Zone`)
-      .then(response => response.json())
-      .then(data => setTroopData(data))
+        .then(response => response.json())
+        .then(data => setTroopData(data))
     }, 100)
   }
 
@@ -117,30 +117,25 @@ export default function Map({ page }) {
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
-
-  const state = {
-
-  };
-
   return (
-    <MapContext.Provider value={state}>
-      <div>
-        <GeoLocation panTo={panTo} />
-        <GoogleMap
-          id="map"
-          mapContainerStyle={mapContainerStyle}
-          zoom={18}
-          center={center}
-          options={options}
-          onLoad={onMapLoad}
-          onClick={itemShownPlacer}
-        >
-          {page === '1' && (
-            <div>
-              {troopData.length > 0 ? (
-                <div>
-                  {troopData?.map((troop, index) => (
-                    <div key={index}>
+    <div>
+      <GeoLocation panTo={panTo} />
+      <GoogleMap
+        id="map"
+        mapContainerStyle={mapContainerStyle}
+        zoom={18}
+        center={center}
+        options={options}
+        onLoad={onMapLoad}
+        onClick={itemShownPlacer}
+      >
+        {page === '1' && (
+          <div>
+            {troopData.length > 0 && (
+              <div>
+                {troopData?.map((troop, index) => (
+                  <div key={index}>
+                    <div>
                       <Marker
                         key={`${troop.lat}-${troop.lng}`}
                         position={{ lat: troop.lat, lng: troop.lng }}
@@ -155,74 +150,78 @@ export default function Map({ page }) {
                         }}
                       />
                     </div>
-                  ))}
-
-                  {russianTroopDetails ? (
-                    <InfoWindow
-                      position={{
-                        lat: russianTroopDetails.lat,
-                        lng: russianTroopDetails.lng,
-                      }}
-                      onCloseClick={() => {
-                        setRussianTroopDetails(null);
-                      }}
-                    >
-                      <div>
-                        <h2>Careful! Troop was spotted here</h2>
-                        <p>
-                          Spotted{" "}
-                          {formatRelative(time, new Date())}
-                        </p>
-                      </div>
-                    </InfoWindow>
-                  ) : null})
-                </div>) : (<></>)
-              }
-            </div>
-          )}
-
-          {page === '2' && (
-            <div>
-              {supplies.map((troop) => (
-                <Marker
-                  key={`${troop.lat}-${troop.lng}`}
-                  position={{ lat: troop.lat, lng: troop.lng }}
-                  onClick={() => {
-                    setSuppliesDetail(troop);
-                  }}
-                  icon={{
-                    url: `/package.svg`,
-                    origin: new window.google.maps.Point(0, 0),
-                    anchor: new window.google.maps.Point(15, 15),
-                    scaledSize: new window.google.maps.Size(30, 30),
-                  }}
-                />
-              ))}
-
-              {suppliesDetail ? (
-                <InfoWindow
-                  position={{
-                    lat: suppliesDetail.lat,
-                    lng: suppliesDetail.lng,
-                  }}
-                  onCloseClick={() => {
-                    setSuppliesDetail(null);
-                  }}
-                >
-                  <div>
-                    <h2>Supply Here</h2>
-                    <p>
-                      Spotted{" "}
-                      {formatRelative(time, new Date())}
-                    </p>
+                    <div>
+                      {russianTroopDetails ? (
+                        <InfoWindow
+                          position={{
+                            lat: russianTroopDetails.lat,
+                            lng: russianTroopDetails.lng,
+                          }}
+                          onCloseClick={() => {
+                            setRussianTroopDetails(null);
+                          }}
+                        >
+                          <div style={{ color: 'black' }}>
+                            <h2>Careful! Troop was spotted here</h2>
+                            <p>
+                              Spotted{" "}
+                              {moment(troopData[index].createdAt).calendar()}
+                            </p>
+                          </div>
+                        </InfoWindow>
+                      ) : null}
+                    </div>
                   </div>
-                </InfoWindow>
-              ) : null}
-            </div>
-          )}
-        </GoogleMap>
-      </div>
-    </MapContext.Provider>
+
+                ))}
+
+                )
+              </div>)
+            }
+          </div>
+        )}
+
+        {page === '2' && (
+          <div>
+            {supplies.map((troop) => (
+              <Marker
+                key={`${troop.lat}-${troop.lng}`}
+                position={{ lat: troop.lat, lng: troop.lng }}
+                onClick={() => {
+                  setSuppliesDetail(troop);
+                }}
+                icon={{
+                  url: `/package.svg`,
+                  origin: new window.google.maps.Point(0, 0),
+                  anchor: new window.google.maps.Point(15, 15),
+                  scaledSize: new window.google.maps.Size(30, 30),
+                }}
+              />
+            ))}
+
+            {suppliesDetail ? (
+              <InfoWindow
+                position={{
+                  lat: suppliesDetail.lat,
+                  lng: suppliesDetail.lng,
+                }}
+                onCloseClick={() => {
+                  setSuppliesDetail(null);
+                }}
+              >
+                <div>
+                  <h2>Supply Here</h2>
+                  <p>
+                    Spotted{" "}
+                    {formatRelative(time, new Date())}
+                  </p>
+                </div>
+              </InfoWindow>
+            ) : null}
+          </div>
+        )}
+      </GoogleMap>
+    </div>
   )
 }
 
