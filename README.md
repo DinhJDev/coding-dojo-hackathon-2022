@@ -3,5 +3,5 @@
 # To start frontend
 
 1. CD into frontend folder
-2. yarn install 
+2. yarn add 
 3. yarn start
