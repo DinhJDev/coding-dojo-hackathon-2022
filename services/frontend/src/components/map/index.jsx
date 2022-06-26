@@ -15,6 +15,7 @@ const mapContainerStyle = {
   width: "100vw",
 };
 const options = {
+  mapId: "c16a70408e094259",
   disableDefaultUI: true,
   zoomControl: true,
 };
