@@ -58,7 +58,6 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: new Date(),
       },
     ]);
   }, []);
