@@ -14,16 +14,23 @@ import ArticleIcon from '@mui/icons-material/Article';
 import ForumIcon from '@mui/icons-material/Forum';
 import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 import Toolbar from '@mui/material/Toolbar';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
 export default function Sidebar(props) {
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-  
-    const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
-    };
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   const drawer = (
     <div>
@@ -31,7 +38,10 @@ export default function Sidebar(props) {
       <Divider />
       <List>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+            selected={selectedIndex === 0}
+            onClick={(event) => handleListItemClick(event, 0)}
+            >
                 <ListItemIcon>                
                     <MapIcon />
                 </ListItemIcon>
@@ -39,7 +49,10 @@ export default function Sidebar(props) {
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 1}
+              onClick={(event) => handleListItemClick(event, 1)}
+            >
                 <ListItemIcon>                
                     <ArticleIcon />
                 </ListItemIcon>
@@ -47,7 +60,10 @@ export default function Sidebar(props) {
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 2}
+              onClick={(event) => handleListItemClick(event, 2)}
+            >
                 <ListItemIcon>                
                     <ForumIcon />
                 </ListItemIcon>
@@ -55,7 +71,10 @@ export default function Sidebar(props) {
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 3}
+              onClick={(event) => handleListItemClick(event, 3)}
+            >
                 <ListItemIcon>                
                 <TakeoutDiningIcon />
                 </ListItemIcon>
