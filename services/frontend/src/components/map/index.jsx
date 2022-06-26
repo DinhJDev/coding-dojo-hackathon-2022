@@ -70,25 +70,32 @@ export default function Map({ page }) {
       .then(data => setFilteredData(data))
   }
 
-
   const sendTroopInfo = (russianTroops) => {
-    fetch(`https://localhost:7032/api/Zone`, {
-      method: "POST",
-      headers: {
-        body: JSON.stringify(russianTroops)
-      }
-    })
-      .then((response) => response.json())
-      .then((result) => { console.log(result) })
+    if(russianTroops.length > 0){
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      
+      var raw = JSON.stringify({
+        "lat": `${russianTroops[russianTroops.length - 1]?.lat}`,
+        "lng": `${russianTroops[russianTroops.length - 1]?.lng}`
+      });
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      
+      fetch("https://localhost:7032/api/Zone", requestOptions)
+        .then(response => response.text())
+    }
   }
 
   useEffect(() => {
     getTroops(id)
     sendTroopInfo(russianTroops)
   }, [id, russianTroops])
-
-  // console.log(filteredData)
-  console.log(russianTroops)
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
@@ -163,7 +170,7 @@ export default function Map({ page }) {
                     <h2>Careful! Troop was spotted here</h2>
                     <p>
                       Spotted{" "}
-                      {moment().startOf(new Date()).fromNow()}
+                      {formatRelative(suppliesDetail.time, new Date())}
                     </p>
                   </div>
                 </InfoWindow>
@@ -203,8 +210,7 @@ export default function Map({ page }) {
                     <h2>Supply Here</h2>
                     <p>
                       Spotted{" "}
-                      {moment().calendar()}
-                      {/* {formatRelative(suppliesDetail.time, new Date())} */}
+                      {formatRelative(suppliesDetail.time, new Date())}
                       { }
                     </p>
                   </div>
