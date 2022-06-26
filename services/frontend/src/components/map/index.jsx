@@ -66,7 +66,6 @@ export default function Map({ page }) {
       fetch("https://localhost:7032/api/Zone", requestOptions)
         .then(response => response.text())
     }
-    getTroops()
   }
 
   const getTroops = () => {
@@ -74,13 +73,13 @@ export default function Map({ page }) {
       fetch(`https://localhost:7032/api/Zone`)
       .then(response => response.json())
       .then(data => setTroopData(data))
-    }, 1000)
+    }, 100)
   }
 
 
   useEffect(() => {
     sendTroopInfo(russianTroops)
-      getTroops()
+    getTroops()
   }, [russianTroops])
 
   // Supplies
