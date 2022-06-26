@@ -34,7 +34,7 @@ export default function Map({ page }) {
   const [russianTroops, setRussianTroops] = useState([]);
   const [russianTroopDetails, setRussianTroopDetails] = useState(null);
 
-  const [troopData, setTroopData] = useState({});
+  const [troopData, setTroopData] = useState([]);
   
   const onMapClickTroops = useCallback((e) => {
     setRussianTroops((current) => [
@@ -70,14 +70,17 @@ export default function Map({ page }) {
   }
 
   const getTroops = () => {
-    fetch(`https://localhost:7032/api/Zone`)
+    setTimeout(() => {
+      fetch(`https://localhost:7032/api/Zone`)
       .then(response => response.json())
       .then(data => setTroopData(data))
+    }, 1000)
   }
+
 
   useEffect(() => {
     sendTroopInfo(russianTroops)
-    getTroops()
+      getTroops()
   }, [russianTroops])
 
   // Supplies
