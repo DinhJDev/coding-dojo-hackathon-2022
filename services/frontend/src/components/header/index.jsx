@@ -5,8 +5,20 @@ import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import Map from "../map";
+import Toolbar from '@mui/material/Toolbar';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    text: {
+      primary: "#fff"
+    },
+    background: {
+      default: "#6c747d"
+    }
+  }
+});
 
 export default function Header() {
   const [page, setPage] = useState("1");
@@ -16,7 +28,8 @@ export default function Header() {
   };
 
   return (
-    <div style={{width: '100%', position: 'fixed', marginLeft: 240, zIndex: 100, backgroundColor: 'white'}}>
+    <ThemeProvider theme={theme}>
+    <div style={{width: '100%', position: 'fixed', marginLeft: 240, zIndex: 100, backgroundColor: '#262a3b'}}>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={page}>
           <Box
@@ -27,17 +40,17 @@ export default function Header() {
               <Tab
                 label="Potential Danger"
                 value="1"
-                style={{ textTransform: "none", width: 200, height: 65 }}
+                style={{ textTransform: "none", width: 200, height: 65, color: "white"}}
               />
               <Tab
                 label="Supplies"
                 value="2"
-                style={{ textTransform: "none", width: 200 }}
+                style={{ textTransform: "none", width: 200, color: "white"}}
               />
               <Tab
                 label="Housing"
                 value="3"
-                style={{ textTransform: "none", width: 200 }}
+                style={{ textTransform: "none", width: 200, color: "white" }}
               />
             </TabList>
           </Box>
@@ -45,5 +58,6 @@ export default function Header() {
         </TabContext>
       </Box>
     </div>
+    </ThemeProvider>
   );
 }

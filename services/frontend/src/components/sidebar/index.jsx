@@ -10,10 +10,21 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MapIcon from '@mui/icons-material/Map';
-import ArticleIcon from '@mui/icons-material/Article';
 import ForumIcon from '@mui/icons-material/Forum';
 import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 import Toolbar from '@mui/material/Toolbar';
+import { createTheme, ThemeProvider} from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    text: {
+      primary: "#fff"
+    },
+    background: {
+      paper: "#262a3b"
+    }
+  }
+});
 
 const drawerWidth = 240;
 
@@ -33,7 +44,7 @@ export default function Sidebar(props) {
         <ListItem disablePadding>
             <ListItemButton>
                 <ListItemIcon>                
-                    <MapIcon />
+                    <MapIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>
                 <ListItemText primary="Map" />
             </ListItemButton>
@@ -41,15 +52,7 @@ export default function Sidebar(props) {
         <ListItem disablePadding>
             <ListItemButton>
                 <ListItemIcon>                
-                    <ArticleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Posts" />
-            </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-            <ListItemButton>
-                <ListItemIcon>                
-                    <ForumIcon />
+                    <ForumIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>
                 <ListItemText primary="Messages" />
             </ListItemButton>
@@ -57,7 +60,7 @@ export default function Sidebar(props) {
         <ListItem disablePadding>
             <ListItemButton>
                 <ListItemIcon>                
-                <TakeoutDiningIcon />
+                <TakeoutDiningIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>
                 <ListItemText primary="Lost & Found" />
             </ListItemButton>
@@ -69,6 +72,7 @@ export default function Sidebar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
+    <ThemeProvider theme={theme}>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
@@ -113,5 +117,6 @@ export default function Sidebar(props) {
       </Box>
       
     </Box>
+    </ThemeProvider>
   );
 }
