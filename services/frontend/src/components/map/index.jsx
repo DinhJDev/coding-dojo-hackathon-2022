@@ -47,6 +47,7 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
+        time: new Date(),
       },
     ]);
   }, []);
@@ -57,7 +58,7 @@ export default function Map({ page }) {
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-
+        time: new Date(),
       },
     ]);
   }, []);
@@ -120,6 +121,7 @@ export default function Map({ page }) {
   if (!isLoaded) return "Loading...";
 
 
+  let time = new Date()
 
   const state = {
 
@@ -170,7 +172,7 @@ export default function Map({ page }) {
                     <h2>Careful! Troop was spotted here</h2>
                     <p>
                       Spotted{" "}
-                      {formatRelative(suppliesDetail.time, new Date())}
+                      {formatRelative(time, new Date())}
                     </p>
                   </div>
                 </InfoWindow>
@@ -210,8 +212,7 @@ export default function Map({ page }) {
                     <h2>Supply Here</h2>
                     <p>
                       Spotted{" "}
-                      {formatRelative(suppliesDetail.time, new Date())}
-                      { }
+                      {formatRelative(time, new Date())}
                     </p>
                   </div>
                 </InfoWindow>
