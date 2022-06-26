@@ -29,12 +29,18 @@ const theme = createTheme({
 const drawerWidth = 240;
 
 export default function Sidebar(props) {
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-  
-    const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
-    };
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   const drawer = (
     <div>
@@ -42,7 +48,10 @@ export default function Sidebar(props) {
       <Divider />
       <List>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+            selected={selectedIndex === 0}
+            onClick={(event) => handleListItemClick(event, 0)}
+            >
                 <ListItemIcon>                
                     <MapIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>
@@ -50,7 +59,10 @@ export default function Sidebar(props) {
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 1}
+              onClick={(event) => handleListItemClick(event, 1)}
+            >
                 <ListItemIcon>                
                     <ForumIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>
@@ -58,7 +70,10 @@ export default function Sidebar(props) {
             </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              selected={selectedIndex === 2}
+              onClick={(event) => handleListItemClick(event, 2)}
+            >
                 <ListItemIcon>                
                 <TakeoutDiningIcon sx={{color: '#fff'}}/>
                 </ListItemIcon>

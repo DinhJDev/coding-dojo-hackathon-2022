@@ -5,10 +5,8 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-import moment from 'moment';
 import { formatRelative } from "date-fns";
 import GeoLocation from "./GeoLocation";
-
 import MapContext from "./MapContext";
 
 const libraries = ["places"];
@@ -27,6 +25,7 @@ const center = {
 };
 
 export default function Map({ page }) {
+  const time = new Date()
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -36,22 +35,57 @@ export default function Map({ page }) {
   const [russianTroops, setRussianTroops] = useState([]);
   const [russianTroopDetails, setRussianTroopDetails] = useState(null);
 
-  // Supplies
-  const [supplies, setSupplies] = useState([]);
-  const [suppliesDetail, setSuppliesDetail] = useState(null);
-
-  const [filteredData, setFilteredData] = useState({});
-
+  const [troopData, setTroopData] = useState([]);
+  
   const onMapClickTroops = useCallback((e) => {
     setRussianTroops((current) => [
       ...current,
       {
         lat: e.latLng.lat(),
         lng: e.latLng.lng(),
-        time: new Date(),
       },
     ]);
   }, []);
+
+  const sendTroopInfo = (russianTroops) => {
+    if (russianTroops.length > 0) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        "lat": `${russianTroops[russianTroops.length - 1]?.lat}`,
+        "lng": `${russianTroops[russianTroops.length - 1]?.lng}`
+      });
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("https://localhost:7032/api/Zone", requestOptions)
+        .then(response => response.text())
+    }
+  }
+
+  const getTroops = () => {
+    setTimeout(() => {
+      fetch(`https://localhost:7032/api/Zone`)
+      .then(response => response.json())
+      .then(data => setTroopData(data))
+    }, 100)
+  }
+
+
+  useEffect(() => {
+    sendTroopInfo(russianTroops)
+    getTroops()
+  }, [russianTroops])
+
+  // Supplies
+  const [supplies, setSupplies] = useState([]);
+  const [suppliesDetail, setSuppliesDetail] = useState(null);
 
   const onMapClickSupplies = useCallback((e) => {
     setSupplies((current) => [
@@ -63,41 +97,6 @@ export default function Map({ page }) {
     ]);
   }, []);
 
-  const id = 2
-
-  const getTroops = (id) => {
-    fetch(`https://localhost:7032/api/Zone?id=${id}`)
-      .then(response => response.json())
-      .then(data => setFilteredData(data))
-  }
-
-  const sendTroopInfo = (russianTroops) => {
-    if(russianTroops.length > 0){
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      
-      var raw = JSON.stringify({
-        "lat": `${russianTroops[russianTroops.length - 1]?.lat}`,
-        "lng": `${russianTroops[russianTroops.length - 1]?.lng}`
-      });
-      
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-      
-      fetch("https://localhost:7032/api/Zone", requestOptions)
-        .then(response => response.text())
-    }
-  }
-
-  useEffect(() => {
-    getTroops(id)
-    sendTroopInfo(russianTroops)
-  }, [id, russianTroops])
-
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
@@ -108,20 +107,16 @@ export default function Map({ page }) {
     mapRef.current.setZoom(18);
   }, []);
 
+
   let itemShownPlacer = onMapClickTroops
 
   if (page === '2') {
     itemShownPlacer = onMapClickSupplies
-  } else {
-    itemShownPlacer = itemShownPlacer
   }
-
 
   if (loadError) return "Error";
   if (!isLoaded) return "Loading...";
 
-
-  let time = new Date()
 
   const state = {
 
@@ -142,41 +137,47 @@ export default function Map({ page }) {
         >
           {page === '1' && (
             <div>
-              {russianTroops.map((troop) => (
-                <Marker
-                  key={`${troop.lat}-${troop.lng}`}
-                  position={{ lat: troop.lat, lng: troop.lng }}
-                  onClick={() => {
-                    setRussianTroopDetails(troop);
-                  }}
-                  icon={{
-                    url: `/rusFlag.png`,
-                    origin: new window.google.maps.Point(0, 0),
-                    anchor: new window.google.maps.Point(15, 15),
-                    scaledSize: new window.google.maps.Size(30, 30),
-                  }}
-                />
-              ))}
+              {troopData.length > 0 ? (
+                <div>
+                  {troopData?.map((troop, index) => (
+                    <div key={index}>
+                      <Marker
+                        key={`${troop.lat}-${troop.lng}`}
+                        position={{ lat: troop.lat, lng: troop.lng }}
+                        onClick={() => {
+                          setRussianTroopDetails(troop);
+                        }}
+                        icon={{
+                          url: `/rusFlag.png`,
+                          origin: new window.google.maps.Point(0, 0),
+                          anchor: new window.google.maps.Point(15, 15),
+                          scaledSize: new window.google.maps.Size(30, 30),
+                        }}
+                      />
+                    </div>
+                  ))}
 
-              {russianTroopDetails ? (
-                <InfoWindow
-                  position={{
-                    lat: russianTroopDetails.lat,
-                    lng: russianTroopDetails.lng,
-                  }}
-                  onCloseClick={() => {
-                    setRussianTroopDetails(null);
-                  }}
-                >
-                  <div>
-                    <h2>Careful! Troop was spotted here</h2>
-                    <p>
-                      Spotted{" "}
-                      {formatRelative(time, new Date())}
-                    </p>
-                  </div>
-                </InfoWindow>
-              ) : null}
+                  {russianTroopDetails ? (
+                    <InfoWindow
+                      position={{
+                        lat: russianTroopDetails.lat,
+                        lng: russianTroopDetails.lng,
+                      }}
+                      onCloseClick={() => {
+                        setRussianTroopDetails(null);
+                      }}
+                    >
+                      <div>
+                        <h2>Careful! Troop was spotted here</h2>
+                        <p>
+                          Spotted{" "}
+                          {formatRelative(time, new Date())}
+                        </p>
+                      </div>
+                    </InfoWindow>
+                  ) : null})
+                </div>) : (<></>)
+              }
             </div>
           )}
 
@@ -222,5 +223,6 @@ export default function Map({ page }) {
         </GoogleMap>
       </div>
     </MapContext.Provider>
-  );
+  )
 }
+
