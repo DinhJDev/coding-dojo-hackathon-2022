@@ -130,8 +130,6 @@ export default function Map({ page }) {
     }, 100)
   }
 
-  console.log(suppliesData)
-
   useEffect(() => {
     sendSuppliesInfo(supplies)
     getSupplies()
